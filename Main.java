@@ -1,6 +1,8 @@
+
 import java.util.List;
 
 //Dependências
+
 LivroService service = new LivroService();
 
 void main() {
@@ -89,32 +91,22 @@ void excluir() {
     IO.println("2 - Por Nome");
     int opc = Input.scanInt("Digite a opção 1 ou 2: ");
 
-    if (opc == 1) { // 1
-        listar();
-        int indice = Input.scanInt("Digite o número do livro que deseja remover: ");
-        if (indice > service.listar().size() || indice <= 0) {
-            IO.println("Livro não encontrado!");
-        } else {
-            service.listar().remove(indice - 1);
-            IO.println("Livro removido com sucesso!");
-        }
-    } else if (opc == 2) { // 2
-        String nome = IO.readln("Digite o nome do livro a ser removido: ").trim();
-        if (nome.isEmpty()) {
-            IO.println("Nome do livro inválido!");
-            return;
-        }
-
-        for (int i = 0; i < service.listar().size(); i++) {
-            if (service.listar().get(i).equalsIgnoreCase(nome)) {
-                service.listar().remove(i);
+    try {
+        switch (opc) {
+            case 1 -> {
+                listar(); // ajuda o usuário a ver os índices
+                int indice = Input.scanInt("Digite o índice de exibição do livro a ser removido: ");
+                service.excluirPorIndice(indice);
                 IO.println("Livro removido com sucesso!");
-                return;
             }
+            case 2 -> {
+                String titulo = Input.scanString("Digite o título do livro a ser removido: ");
+                service.excluirPorTitulo(titulo);
+                IO.println("Livro removido com sucesso!");
+            }
+            default -> IO.println("Opção inválida!");
         }
-
-        IO.println("Livro não encontrado!");
-    } else {
-        IO.println("Opção inválida de remoção.");
+    } catch (Exception e) {
+        IO.println("ERRO: " + e.getMessage());
     }
 }
