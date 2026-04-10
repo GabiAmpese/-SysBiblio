@@ -60,13 +60,38 @@ void listar() {
 
 }
 
+// Pesquisar por título, autor ou ano de publicação, oferecendo um menu de opções de pesquisa
 void pesquisar() {
+    IO.println("""
+            Escolha o tipo de pesquisa:
+            1 - Por Título
+            2 - Por Autor
+            3 - Por Ano de Publicação
+            """);
+    int opc = Input.scanInt("Opção (1, 2 ou 3): ");
 
-    String pesquisa = Input.scanString("Digite parte do título: ");
-    
-    List<Livro> livros = service.pesquisar(pesquisa);
+    List<Livro> resultados;
 
-    imprimirLista(livros);
+    switch (opc) {
+        case 1 -> {
+            String t = Input.scanString("Digite o título (ou parte dele): ");
+            resultados = service.pesquisarPorTitulo(t);
+        }
+        case 2 -> {
+            String a = Input.scanString("Digite o nome do autor: ");
+            resultados = service.pesquisarPorAutor(a);
+        }
+        case 3 -> {
+            int ano = Input.scanInt("Digite o ano de publicação: ");
+            resultados = service.pesquisarPorAno(ano);
+        }
+        default -> {
+            IO.println("Opção inválida!");
+            return;
+        }
+    }
+
+    imprimirLista(resultados);
 }
 
 void imprimirLista(List<Livro> livros) {

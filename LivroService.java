@@ -25,12 +25,33 @@ public class LivroService {
         return acervo;
     }
 
-    public List<Livro> pesquisar(String titulo) {
+    // O método pesquisar() foi dividido em três métodos de pesquisa, por título, por autor e por ano de publicação.
+    public List<Livro> pesquisarPorTitulo(String titulo) {
         List<Livro> livrosEncontrados = new ArrayList<>();
-        titulo = titulo.toUpperCase();
+        String tituloFormatado = titulo.trim().toUpperCase(); 
 
         for (Livro livro : acervo) {
-            if (livro.getTitulo().contains(titulo))
+            if (livro.getTitulo().contains(tituloFormatado))
+                livrosEncontrados.add(livro);
+        }
+        return livrosEncontrados;
+    }
+
+    public List<Livro> pesquisarPorAutor(String autor) {
+        List<Livro> livrosEncontrados = new ArrayList<>();
+        String autorFormatado = autor.trim().toUpperCase(); // Independente do que o usuário digite, o sistema vai formatar para maiúsculo e retirar os espaços em branco no início e no final da string, facilitando a busca.
+
+        for (Livro livro : acervo) {
+            if (livro.getAutor().contains(autorFormatado)) // contains() permite buscar por parte do nome do autor, por exemplo "Machado" para encontrar "Machado de Assis"
+                livrosEncontrados.add(livro);
+        }
+        return livrosEncontrados;
+    }
+
+    public List<Livro> pesquisarPorAno(int ano) {
+        List<Livro> livrosEncontrados = new ArrayList<>();
+        for (Livro livro : acervo) {
+            if (livro.getAnoPublicacao() == ano)
                 livrosEncontrados.add(livro);
         }
         return livrosEncontrados;
