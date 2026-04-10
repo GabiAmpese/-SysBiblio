@@ -14,6 +14,7 @@ void main() {
             4 - Remover Livro
                 1 - Por Índice
                 2 - Por Nome
+            5 - Editar Livro
             0 - Sair
             """;
 
@@ -27,6 +28,7 @@ void main() {
                 case 2 -> listar();
                 case 3 -> pesquisar();
                 case 4 -> excluir();
+                case 5 -> editar();
                 case 0 -> IO.println("Até breve!!!");
                 default -> IO.println("Opção Inválida");
             }
@@ -106,6 +108,31 @@ void excluir() {
             }
             default -> IO.println("Opção inválida!");
         }
+    } catch (Exception e) {
+        IO.println("ERRO: " + e.getMessage());
+    }
+}
+
+void editar() {
+    if (service.listar().isEmpty()) {
+        IO.println("Nenhum livro cadastrado.");
+        return;
+    }
+
+    listar(); // Sugestão de funcionamento
+
+    int indice = Input.scanInt("Digite o índice de exibição do livro a ser editado: ");
+    
+    String titulo = Input.scanString("Digite o novo título do livro: ");
+    String autor = Input.scanString("Digite o novo autor do livro: ");
+    int anoPublicacao = Input.scanInt("Digite o novo ano de publicação do livro: ");
+    int numeroPaginas = Input.scanInt("Digite o novo número de páginas do livro: ");
+
+    Livro livroEditado = new Livro(titulo, autor, anoPublicacao, numeroPaginas);
+
+    try {
+        service.editarLivroCadastrado(indice, livroEditado);
+        IO.println("Livro editado com sucesso!");
     } catch (Exception e) {
         IO.println("ERRO: " + e.getMessage());
     }
