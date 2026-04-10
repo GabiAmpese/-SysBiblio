@@ -22,6 +22,7 @@ public class LivroService {
     }
 
     public List<Livro> listar() {
+        ordenarPorTitulo(); // Ordena a lista de livros por título antes de retornar
         return acervo;
     }
 
@@ -112,6 +113,22 @@ public class LivroService {
 
         // Atualizar o livro na lista
         acervo.set(indiceExibicao - 1, livroEditado);
+    }
+
+    // Método para ordenar a lista de livros por título usando o algoritmo Bubble Sort
+    public void ordenarPorTitulo() {
+        int n = acervo.size();
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - 1 - i; j++) {
+                // Compara o título do livro atual com o título do próximo livro
+                if (acervo.get(j).getTitulo().compareToIgnoreCase(acervo.get(j + 1).getTitulo()) > 0) {
+                    // Realiza a troca (swap) dos objetos Livro na lista
+                    Livro aux = acervo.get(j);
+                    acervo.set(j, acervo.get(j + 1));
+                    acervo.set(j + 1, aux);
+                }
+            }
+        }
     }
 
     // Método para validar e formatar os dados do livro antes de cadastrar ou editar
